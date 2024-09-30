@@ -30,7 +30,7 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 ### 1. Clonar el Repositorio
 
 ```bash```
-git clone https://github.com/tuusuario/tu-repositorio.git
+git clone https://github.com/Agustinusaurou/decrypto-operacionescrud.git
 cd tu-repositorio
 
 
