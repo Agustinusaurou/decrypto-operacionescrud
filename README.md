@@ -31,7 +31,6 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
 ```bash```
 git clone https://github.com/Agustinusaurou/decrypto-operacionescrud.git
-cd tu-repositorio
 
 
 ### 2. Configurar la Base de Datos
@@ -52,4 +51,3 @@ mvn spring-boot:run
 
 ### 5. Se pueden ver los endpoint disponibles con swagger
 http://localhost:8080/swagger-ui/index.html
-"# decrypto-operacionescrud" 
