@@ -1,6 +1,7 @@
 package com.decrypto.operacionescrud.controllers.pais;
 
 import com.decrypto.operacionescrud.Utils.Either;
+import com.decrypto.operacionescrud.entities.PaisAdmitido;
 import com.decrypto.operacionescrud.services.PaisService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class PaisController {
     public ResponseEntity<Void> save(@Valid @RequestBody SavePaisRequest savePaisRequest) {
         PaisDTO paisDTO = PaisDTO
             .builder()
-            .nombre(savePaisRequest.getNombre())
+            .nombre(PaisAdmitido.valueOf(savePaisRequest.getNombre()))
             .build();
 
         Optional<PaisService.Left> result = paisService.save(paisDTO);

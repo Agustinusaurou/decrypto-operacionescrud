@@ -47,7 +47,7 @@ class StatsServiceTest {
         class Left {
             @Test
             void with_UNEXPECTED_ERROR_when_comitenteRepository_findAll_fails() {
-                doThrow(new RuntimeException()).when(comitenteRepository).findAll();
+                when(comitenteRepository.findAll()).thenThrow(new RuntimeException());
                 Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
                 verify(comitenteRepository).findAll();
 

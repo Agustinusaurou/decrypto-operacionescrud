@@ -11,7 +11,7 @@ Proporciona funcionalidades para obtener estadísticas de comitentes distribuido
 
 ## Tecnologías Utilizadas
 
-- **Java 1.8**
+- **Java 11**
 - **Spring Boot**
 - **Spring Data JPA** (para acceso a base de datos)
 - **MySQL** (base de datos)

@@ -53,7 +53,7 @@ class MercadoControllerTest {
         saveMercadoRequest = SaveMercadoRequest.builder()
             .codigo("CODIGO")
             .description("DESCRIPCION")
-            .pais(PaisAdmitido.ARGENTINA)
+            .pais("ARGENTINA")
             .build();
 
         updateMercadoRequest = UpdateMercadoRequest.builder()

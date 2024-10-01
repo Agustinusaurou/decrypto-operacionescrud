@@ -1,6 +1,5 @@
 package com.decrypto.operacionescrud.controllers.stats;
 
-import com.decrypto.operacionescrud.entities.PaisAdmitido;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

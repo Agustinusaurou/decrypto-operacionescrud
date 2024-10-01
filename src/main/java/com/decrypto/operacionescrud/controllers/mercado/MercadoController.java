@@ -1,6 +1,7 @@
 package com.decrypto.operacionescrud.controllers.mercado;
 
 import com.decrypto.operacionescrud.Utils.Either;
+import com.decrypto.operacionescrud.entities.PaisAdmitido;
 import com.decrypto.operacionescrud.services.MercadoService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class MercadoController {
         MercadoDTO mercadoDTO = MercadoDTO
             .builder()
             .codigo(saveComitenteRequest.getCodigo())
-            .pais(saveComitenteRequest.getPais())
+            .pais(PaisAdmitido.valueOf(saveComitenteRequest.getPais()))
             .description(saveComitenteRequest.getDescription())
             .build();
 

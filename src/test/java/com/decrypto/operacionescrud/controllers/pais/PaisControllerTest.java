@@ -49,7 +49,7 @@ class PaisControllerTest {
             .build();
 
         savePaisRequest = SavePaisRequest.builder()
-            .nombre(PaisAdmitido.ARGENTINA)
+            .nombre("ARGENTINA")
             .build();
     }
 
