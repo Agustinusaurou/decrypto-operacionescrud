@@ -86,11 +86,10 @@ class StatsServiceTest {
                     .id(1L)
                     .codigo("CODE")
                     .description("DSCRIPTION")
-                    .pais(Pais.builder().nombre(PaisAdmitido.ARGENTINA).build())
+                    .pais(Pais.builder().id(1L).nombre(PaisAdmitido.ARGENTINA).build())
                     .comitentes(new HashSet<>(comitentes))
                     .build();
                 List<Mercado> mercados = Arrays.asList(mercado);
-
 
                 when(mercadoRepository.findAll()).thenReturn(mercados);
 
