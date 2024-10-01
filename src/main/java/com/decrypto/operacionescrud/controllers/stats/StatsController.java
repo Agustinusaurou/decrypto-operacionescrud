@@ -38,9 +38,7 @@ public class StatsController {
 
     public HttpStatus buildLeft(StatsService.Left left) {
         switch (left) {
-            case COMITENTES_NOT_EXIST:
             case MERCADOS_NOT_EXIST:
-            case PAISES_NOT_EXIST:
                 return HttpStatus.PRECONDITION_FAILED;
             case UNEXPECTED_ERROR:
             default: {

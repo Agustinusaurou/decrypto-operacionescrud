@@ -9,6 +9,7 @@ import com.decrypto.operacionescrud.entities.Pais;
 import com.decrypto.operacionescrud.reposiroties.PaisRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -66,6 +67,7 @@ public class PaisService {
         return Either.right(pais);
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> save(PaisDTO dto) {
         Optional<Pais> optionalPais;
 
@@ -93,6 +95,7 @@ public class PaisService {
         }
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> delete(Long id) {
         Optional<Pais> optionalPais;
         try {

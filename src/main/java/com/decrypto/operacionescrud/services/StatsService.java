@@ -7,51 +7,31 @@ import com.decrypto.operacionescrud.controllers.stats.mapper.StatsMapper;
 import com.decrypto.operacionescrud.entities.Comitente;
 import com.decrypto.operacionescrud.entities.Mercado;
 import com.decrypto.operacionescrud.entities.Pais;
-import com.decrypto.operacionescrud.reposiroties.ComitenteRepository;
 import com.decrypto.operacionescrud.reposiroties.MercadoRepository;
-import com.decrypto.operacionescrud.reposiroties.PaisRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 @Slf4j
 @Service
 public class StatsService {
 
-    private final ComitenteRepository comitenteRepository;
     private final MercadoRepository mercadoRepository;
-    private final PaisRepository paisRepository;
 
     @Autowired
-    public StatsService(ComitenteRepository comitenteRepository,
-                        MercadoRepository mercadoRepository,
-                        PaisRepository paisRepository) {
-        this.comitenteRepository = comitenteRepository;
+    public StatsService(MercadoRepository mercadoRepository) {
         this.mercadoRepository = mercadoRepository;
-        this.paisRepository = paisRepository;
     }
 
-
+    @Cacheable(value = "stats")
     public Either<Left, List<CountryStatsResponse>> getComitenteStats() {
-        List<Comitente> comitentes;
-        try {
-            comitentes = comitenteRepository.findAll();
-        } catch (Exception e) {
-            log.error("Unexpected exception trying to find comitentes", e);
-            return Either.left(Left.UNEXPECTED_ERROR);
-        }
-
-        if (comitentes.isEmpty()) {
-            return Either.left(
-                Left.COMITENTES_NOT_EXIST
-            );
-        }
-
         List<Mercado> mercados;
         try {
             mercados = mercadoRepository.findAll();
@@ -66,18 +46,12 @@ public class StatsService {
             );
         }
 
-        List<Pais> paises;
-        try {
-            paises = paisRepository.findAll();
-        } catch (Exception e) {
-            log.error("Unexpected exception trying to find paises", e);
-            return Either.left(Left.UNEXPECTED_ERROR);
-        }
+        ConcurrentSkipListSet<Comitente> comitentes = new ConcurrentSkipListSet<>();
+        ConcurrentSkipListSet<Pais> paises = new ConcurrentSkipListSet<>();
 
-        if (paises.isEmpty()) {
-            return Either.left(
-                Left.PAISES_NOT_EXIST
-            );
+        for (Mercado mercado : mercados) {
+            comitentes.addAll(mercado.getComitentes());
+            paises.add(mercado.getPais());
         }
 
         List<CountryStatsResponse> statsResponseList = new ArrayList<>();
@@ -90,7 +64,7 @@ public class StatsService {
         );
 
         for (CountryStatsResponse countryStats : statsResponseList) {
-            HashMap<String, MarketStatsResponse> statsHashMap = new HashMap<>();
+            ConcurrentHashMap<String, MarketStatsResponse> statsHashMap = new ConcurrentHashMap<>();
 
             mercados.stream()
                 .filter(m -> m.getPais().getNombre().getDescription().equals(countryStats.getCountry()))
@@ -107,9 +81,7 @@ public class StatsService {
 
     public enum Left {
         UNEXPECTED_ERROR,
-        COMITENTES_NOT_EXIST,
         MERCADOS_NOT_EXIST,
-        PAISES_NOT_EXIST
     }
 
 }

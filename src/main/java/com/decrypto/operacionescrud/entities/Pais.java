@@ -26,7 +26,7 @@ import javax.persistence.UniqueConstraint;
 @Setter
 @Builder
 @Table(name = "PAIS", uniqueConstraints = @UniqueConstraint(columnNames = "NOMBRE"))
-public class Pais {
+public class Pais implements Comparable<Pais>{
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +35,9 @@ public class Pais {
     @Enumerated(EnumType.STRING)
     @Column(name = "NOMBRE", nullable = false, unique = true)
     private PaisAdmitido nombre;
+
+    @Override
+    public int compareTo(Pais otroPais) {
+        return this.id.compareTo(otroPais.getId());
+    }
 }

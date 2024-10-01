@@ -45,41 +45,12 @@ class StatsServiceTest {
         @DisplayName("returns left")
         @Nested
         class Left {
-            @Test
-            void with_UNEXPECTED_ERROR_when_comitenteRepository_findAll_fails() {
-                when(comitenteRepository.findAll()).thenThrow(new RuntimeException());
-                Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
 
-                assertThat(actual.isLeft()).isTrue();
-                assertThat(actual.getLeft()).isEqualTo(StatsService.Left.UNEXPECTED_ERROR);
-            }
-
-            @Test
-            void with_COMITENTES_NOT_EXIST_when_comitenteRepository_findAll_return_empty_list() {
-                when(comitenteRepository.findAll()).thenReturn(Collections.emptyList());
-                Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
-
-                assertThat(actual.isLeft()).isTrue();
-                assertThat(actual.getLeft()).isEqualTo(StatsService.Left.COMITENTES_NOT_EXIST);
-            }
 
             @Test
             void with_UNEXPECTED_ERROR_when_mercadoRepository_findAll_fails() {
-                Comitente comitente = Comitente.builder()
-                    .id(1L)
-                    .nombre("NOMBRE")
-                    .identificacion("1234")
-                    .tipoIdentificacion(TipoIdentificador.DNI)
-                    .description("DESCRIPTION")
-                    .build();
-                List<Comitente> comitentes = Arrays.asList(comitente);
-
-                when(comitenteRepository.findAll()).thenReturn(comitentes);
                 doThrow(new RuntimeException()).when(mercadoRepository).findAll();
                 Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
                 verify(mercadoRepository).findAll();
 
                 assertThat(actual.isLeft()).isTrue();
@@ -88,88 +59,12 @@ class StatsServiceTest {
 
             @Test
             void with_MERCADOS_NOT_EXIST_when_mercadoRepository_findAll_return_empty_list() {
-                Comitente comitente = Comitente.builder()
-                    .id(1L)
-                    .nombre("NOMBRE")
-                    .identificacion("1234")
-                    .tipoIdentificacion(TipoIdentificador.DNI)
-                    .description("DESCRIPTION")
-                    .build();
-                List<Comitente> comitentes = Arrays.asList(comitente);
-
-                when(comitenteRepository.findAll()).thenReturn(comitentes);
                 when(mercadoRepository.findAll()).thenReturn(Collections.emptyList());
-
                 Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
                 verify(mercadoRepository).findAll();
 
                 assertThat(actual.isLeft()).isTrue();
                 assertThat(actual.getLeft()).isEqualTo(StatsService.Left.MERCADOS_NOT_EXIST);
-            }
-
-            @Test
-            void with_UNEXPECTED_ERROR_when_paisRepository_findAll_fails() {
-                Comitente comitente = Comitente.builder()
-                    .id(1L)
-                    .nombre("NOMBRE")
-                    .identificacion("1234")
-                    .tipoIdentificacion(TipoIdentificador.DNI)
-                    .description("DESCRIPTION")
-                    .build();
-                List<Comitente> comitentes = Arrays.asList(comitente);
-
-                Mercado mercado = Mercado.builder()
-                    .id(1L)
-                    .codigo("CODE")
-                    .description("DSCRIPTION")
-                    .pais(Pais.builder().nombre(PaisAdmitido.ARGENTINA).build())
-                    .build();
-                List<Mercado> mercados = Arrays.asList(mercado);
-
-                when(comitenteRepository.findAll()).thenReturn(comitentes);
-                when(mercadoRepository.findAll()).thenReturn(mercados);
-                doThrow(new RuntimeException()).when(paisRepository).findAll();
-                Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
-                verify(mercadoRepository).findAll();
-                verify(paisRepository).findAll();
-
-                assertThat(actual.isLeft()).isTrue();
-                assertThat(actual.getLeft()).isEqualTo(StatsService.Left.UNEXPECTED_ERROR);
-            }
-
-            @Test
-            void with_PAISES_NOT_EXIST_when_paisRepository_findAll_return_empty_list() {
-                Comitente comitente = Comitente.builder()
-                    .id(1L)
-                    .nombre("NOMBRE")
-                    .identificacion("1234")
-                    .tipoIdentificacion(TipoIdentificador.DNI)
-                    .description("DESCRIPTION")
-                    .build();
-                List<Comitente> comitentes = Arrays.asList(comitente);
-
-                Mercado mercado = Mercado.builder()
-                    .id(1L)
-                    .codigo("CODE")
-                    .description("DSCRIPTION")
-                    .pais(Pais.builder().nombre(PaisAdmitido.ARGENTINA).build())
-                    .comitentes(new HashSet<>(comitentes))
-                    .build();
-                List<Mercado> mercados = Arrays.asList(mercado);
-
-                when(comitenteRepository.findAll()).thenReturn(comitentes);
-                when(mercadoRepository.findAll()).thenReturn(mercados);
-                when(paisRepository.findAll()).thenReturn(Collections.emptyList());
-
-                Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
-                verify(mercadoRepository).findAll();
-                verify(paisRepository).findAll();
-
-                assertThat(actual.isLeft()).isTrue();
-                assertThat(actual.getLeft()).isEqualTo(StatsService.Left.PAISES_NOT_EXIST);
             }
         }
 
@@ -196,20 +91,11 @@ class StatsServiceTest {
                     .build();
                 List<Mercado> mercados = Arrays.asList(mercado);
 
-                Pais pais = Pais.builder()
-                    .id(1L)
-                    .nombre(PaisAdmitido.ARGENTINA)
-                    .build();
-                List<Pais> paises = Arrays.asList(pais);
 
-                when(comitenteRepository.findAll()).thenReturn(comitentes);
                 when(mercadoRepository.findAll()).thenReturn(mercados);
-                when(paisRepository.findAll()).thenReturn(paises);
 
                 Either<StatsService.Left, List<CountryStatsResponse>> actual = sut.getComitenteStats();
-                verify(comitenteRepository).findAll();
                 verify(mercadoRepository).findAll();
-                verify(paisRepository).findAll();
 
                 assertThat(actual.isRight()).isTrue();
                 assertThat(actual.getRight()).hasSize(1);

@@ -27,7 +27,7 @@ import java.util.Set;
 @Setter
 @Builder
 @Table(name = "COMITENTE", uniqueConstraints = @UniqueConstraint(columnNames = {"IDENTIFICACION", "TIPO_IDENTIFICACION"}))
-public class Comitente {
+public class Comitente implements Comparable<Comitente>{
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +48,9 @@ public class Comitente {
 
     @ManyToMany(mappedBy = "comitentes")
     private Set<Mercado> mercados;
+
+    @Override
+    public int compareTo(Comitente otroComitente) {
+        return this.id.compareTo(otroComitente.getId());
+    }
 }

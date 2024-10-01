@@ -57,28 +57,8 @@ class StatsControllerTest {
             }
 
             @Test
-            void with_service_return_THERE_ARE_NOT_COMITENTES_then_preconditionFail() throws Exception {
-                Either<StatsService.Left, List<CountryStatsResponse>> left = Either.left(StatsService.Left.COMITENTES_NOT_EXIST);
-                when(statsService.getComitenteStats()).thenReturn(left);
-
-                mockMvc.perform(get("/stats")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isPreconditionFailed());
-            }
-
-            @Test
             void with_service_return_THERE_ARE_NOT_MERCADOS_then_preconditionFail() throws Exception {
                 Either<StatsService.Left, List<CountryStatsResponse>> left = Either.left(StatsService.Left.MERCADOS_NOT_EXIST);
-                when(statsService.getComitenteStats()).thenReturn(left);
-
-                mockMvc.perform(get("/stats")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isPreconditionFailed());
-            }
-
-            @Test
-            void with_service_return_THERE_ARE_NOT_PAISES_then_preconditionFail() throws Exception {
-                Either<StatsService.Left, List<CountryStatsResponse>> left = Either.left(StatsService.Left.PAISES_NOT_EXIST);
                 when(statsService.getComitenteStats()).thenReturn(left);
 
                 mockMvc.perform(get("/stats")

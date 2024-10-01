@@ -11,6 +11,7 @@ import com.decrypto.operacionescrud.reposiroties.ComitenteRepository;
 import com.decrypto.operacionescrud.reposiroties.MercadoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -55,6 +56,7 @@ public class ComitenteService {
         );
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> save(ComitenteDTO dto) {
         Optional<Comitente> optionalComitente;
         try {
@@ -102,6 +104,7 @@ public class ComitenteService {
         return Optional.empty();
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> update(ComitenteDTO dto) {
         Either<Left, Comitente> eitherComitente = findComitenteById(dto.getId());
         if (eitherComitente.isLeft()) {
@@ -121,6 +124,7 @@ public class ComitenteService {
         return Optional.empty();
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> delete(Long id) {
         Either<Left, Comitente> eitherComitente = findComitenteById(id);
         if (eitherComitente.isLeft()) {
@@ -191,6 +195,7 @@ public class ComitenteService {
             .build());
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> saveInMercado(Long idComitente, String codeMercado) {
         Either<Left, Comitente> eitherComitente = findComitenteById(idComitente);
         if (eitherComitente.isLeft()) {

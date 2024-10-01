@@ -11,6 +11,7 @@ import com.decrypto.operacionescrud.reposiroties.MercadoRepository;
 import com.decrypto.operacionescrud.reposiroties.PaisRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -65,6 +66,7 @@ public class MercadoService {
         return Either.right(mercado);
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> save(MercadoDTO dto) {
         Optional<Mercado> optionalMercado;
         try {
@@ -107,6 +109,7 @@ public class MercadoService {
         }
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> update(MercadoDTO dto) {
         Either<Left, Mercado> eitherMercado = findMercadosById(dto.getId());
         if (eitherMercado.isLeft()) {
@@ -126,6 +129,7 @@ public class MercadoService {
         return Optional.empty();
     }
 
+    @CacheEvict(value = "stats", allEntries = true)
     public Optional<Left> delete(Long id) {
         Either<Left, Mercado> eitherMercado = findMercadosById(id);
         if (eitherMercado.isLeft()) {
