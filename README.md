@@ -11,19 +11,12 @@ Proporciona funcionalidades para obtener estadísticas de comitentes distribuido
 
 ## Tecnologías Utilizadas
 
-- **Java 11**
+- **Java 17**
 - **Spring Boot**
 - **Spring Data JPA** (para acceso a base de datos)
 - **MySQL** (base de datos)
 - **JUnit5** y **Mockito** (para pruebas)
 
-## Requisitos Previos
-
-Antes de comenzar, asegúrate de tener instalado lo siguiente:
-
-- [Java 8](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
-- [Maven](https://maven.apache.org/download.cgi)
-- [MySQL](https://dev.mysql.com/downloads/installer/)
 
 ## Instalación
 
